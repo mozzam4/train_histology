@@ -12,8 +12,6 @@ import sys
 import os
 from pathlib import Path
 
-training_patch = True
-device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
 
 def create_arg_parser():
@@ -21,16 +19,18 @@ def create_arg_parser():
 
     parser = argparse.ArgumentParser(description='Train arguments')
     parser.add_argument('inputDirectory', help='Path to the input directory.')
+    parser.add_argument('selectModel', help='0 for Patch based, 1 for full image')
     return parser
 
 
 if __name__ == "__main__":
+    device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
     arg_parser = create_arg_parser()
     parsed_args = arg_parser.parse_args(sys.argv[1:])
     if not os.path.exists(parsed_args.inputDirectory):
         print("Input file path does not exist")
 
-    if not training_patch:
+    if parsed_args.selectModel == str(0):
         csv_file = os.path.join(parsed_args.inputDirectory, Path('Few_patches/annotations_full.csv'))
         root_dir = os.path.join(parsed_args.inputDirectory, Path(r'Few_patches/selected_images_cropped'))
         Ldm = LighteningDataHistology(csv_file, root_dir, training_patch, batch_size=1, if_pretrained=False)
