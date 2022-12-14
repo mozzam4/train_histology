@@ -40,7 +40,6 @@ if __name__ == "__main__":
     with open(matched_file_path, "r") as final:
         matched = json.load(final)
 
-    matched = matched[0:2]
     for each in matched:
         input_filename = each['Path']
         output_filedir = os.path.join(out_dir, input_filename[82:105])
@@ -50,7 +49,6 @@ if __name__ == "__main__":
 
         img = openslide.OpenSlide(input_filename)
         tiles = DeepZoomGenerator(img, tile_size=512, overlap=0, limit_bounds=False)
-        print(tiles.tile_count)
         cols, rows = tiles.level_tiles[tiles.level_count-3]
         total_random_sample = random.sample(set(itertools.product(list(range(cols)), list(range(rows)))), cols*rows)
         no_patches = 0
@@ -91,7 +89,7 @@ if __name__ == "__main__":
             else:
                 break
 
-        filenames.append(input_filename)
+        filenames.append(input_filename[82:105])
         patches.append(no_patches)
         MSI_stats.append(each['Label'])
 
