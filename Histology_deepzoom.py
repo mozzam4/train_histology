@@ -42,7 +42,7 @@ if __name__ == "__main__":
 
     for each in matched:
         input_filename = each['Path']
-        output_filedir = os.path.join(out_dir, input_filename[43:58])
+        output_filedir = os.path.join(out_dir, input_filename[80:95])
         if not os.path.isdir(output_filedir):
             # Create a new directory because it does not exist
             os.makedirs(output_filedir)
@@ -79,7 +79,9 @@ if __name__ == "__main__":
                         normalizer.fit(src)
                         transformed = normalizer.transform(to_transform)
 
-                        tile_filename = os.path.splitext(input_filename)[0] + '_' + '(' + str(col) + ',' + str(row) + ')'
+                        #tile_filename = os.path.splitext(input_filename)[0] + '_' + '(' + str(col) + ',' + str(row) + ')'
+                        tile_filename = input_filename[80:95] + '_' + '(' + str(col) + ',' + str(
+                            row) + ')'
                         tile_filename = os.path.join(output_filedir, tile_filename) + '.jpg'
                         io.imsave(tile_filename, transformed)
                         no_patches = no_patches + 1
