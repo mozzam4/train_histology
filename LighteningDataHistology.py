@@ -22,8 +22,8 @@ class LighteningDataHistology(pl.LightningDataModule):
 
         if if_pretrained is True:
             # size required for pretrained model
-            self.rescale_size = 256
-            self.centerCrop = 224
+            self.rescale_size = 224
+            #self.centerCrop = 224
         else:
             self.rescale_size = 1024
             self.centerCrop = 1024
@@ -43,7 +43,7 @@ class LighteningDataHistology(pl.LightningDataModule):
             train_dataset = HistologyDataset(csv_file=self.annotation_dir,
                                              root_dir=self.root_dir,
                                              transform=Compose([Resize(self.rescale_size),
-                                                                CenterCrop(self.centerCrop),
+                                                                #CenterCrop(self.centerCrop),
                                                                 ToTensor(),
                                                                 Normalize(mean=[0.485, 0.456, 0.406],
                                                                           std=[0.229, 0.224, 0.225])]))
