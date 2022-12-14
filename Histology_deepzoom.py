@@ -40,6 +40,7 @@ if __name__ == "__main__":
     with open(matched_file_path, "r") as final:
         matched = json.load(final)
 
+    matched = matched[0:2]
     for each in matched:
         input_filename = each['Path']
         output_filedir = os.path.join(out_dir, input_filename[82:105])
@@ -57,7 +58,6 @@ if __name__ == "__main__":
         for i in total_random_sample:
             if no_patches < 500:
                 col, row = i
-                print(col, row)
                 tile = tiles.get_tile(tiles.level_count-3, (col, row))
                 tile = np.asanyarray(tile)
                 if tile.mean() < 230 and tile.std() > 15:
@@ -66,7 +66,11 @@ if __name__ == "__main__":
                     tile_blur = ndi.gaussian_filter(tile_gray, 3)
                     edges1 = feature.canny(tile_blur, sigma=1)
                     unique, counts = np.unique(edges1, return_counts=True)
+                    if len(unique) < 2:  #(to avoid full white)
+                        continue
+
                     edge_to_image_ratio = counts[1] / counts[0]
+
                     if edge_to_image_ratio >= 0.01:  # To remove blur tiles
 
                         # to_transform = staintools.read_image(input_file)
@@ -79,7 +83,6 @@ if __name__ == "__main__":
                         normalizer.fit(src)
                         transformed = normalizer.transform(to_transform)
 
-                        #tile_filename = os.path.splitext(input_filename)[0] + '_' + '(' + str(col) + ',' + str(row) + ')'
                         tile_filename = input_filename[82:105] + '_' + '(' + str(col) + ',' + str(
                             row) + ')'
                         tile_filename = os.path.join(output_filedir, tile_filename) + '.jpg'
