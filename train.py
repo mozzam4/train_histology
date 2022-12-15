@@ -23,7 +23,6 @@ def create_arg_parser():
 
 
 if __name__ == "__main__":
-    device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
     arg_parser = create_arg_parser()
     parsed_args = arg_parser.parse_args(sys.argv[1:])
     if not os.path.exists(parsed_args.inputDirectory):
@@ -37,7 +36,7 @@ if __name__ == "__main__":
     else:
         csv_file = os.path.join(parsed_args.inputDirectory, Path('Few_patches/annotations.csv'))
         root_dir = os.path.join(parsed_args.inputDirectory, Path('Few_patches/sel'))
-        Ldm = LighteningDataHistology(csv_file, root_dir, int(parsed_args.selectModel), batch_size=16, if_pretrained=True)
+        Ldm = LighteningDataHistology(csv_file, root_dir, int(parsed_args.selectModel), batch_size=256, if_pretrained=True)
         resnet = LitResnet(model_name='PatchModel')
 #
 # batch_num = 1
@@ -77,8 +76,8 @@ if __name__ == "__main__":
 # test_dataloader = DataLoader(test_set, batch_size=batch_num,
 #                              shuffle=True, num_workers=0)
 
-    trainer = pl.Trainer(max_epochs=100,
-                         gpus=1 if str(device) == "cuda:0" else 0)
+    trainer = pl.Trainer(max_epochs=100, gpus=8, num_nodes=2, strategy='ddp')
+    # trainer = pl.Trainer(max_epochs=1, gpus=0)
     trainer.fit(model=resnet, datamodule=Ldm)
     trainer.test(datamodule=Ldm)
 
