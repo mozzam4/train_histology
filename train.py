@@ -76,7 +76,7 @@ if __name__ == "__main__":
 # test_dataloader = DataLoader(test_set, batch_size=batch_num,
 #                              shuffle=True, num_workers=0)
 
-    trainer = pl.Trainer(max_epochs=100, gpus=8, num_nodes=2, strategy='ddp')
+    trainer = pl.Trainer(max_epochs=100, gpus=4, num_nodes=1, strategy='ddp')
     # trainer = pl.Trainer(max_epochs=1, gpus=0)
     trainer.fit(model=resnet, datamodule=Ldm)
     trainer.test(datamodule=Ldm)
