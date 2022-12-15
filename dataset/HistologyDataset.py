@@ -11,7 +11,7 @@ class HistologyDataset(Dataset):
 
     def __init__(self, csv_file, root_dir, transform=None):
         super().__init__()
-        self.annotation = pd.read_csv(csv_file, encoding='utf-8', sep=',')
+        self.annotation = pd.read_csv(csv_file, encoding='utf-8', sep='\t')
         self.root_dir = root_dir
         self.transform = transform
 
@@ -40,10 +40,10 @@ class HistologyDataset(Dataset):
                 if_msi = r['if_msi']
                 break
             else:
-                itm_index = itm_index - int(r['no_of_files']) + 1
+                itm_index = itm_index - int(r['no_of_files'])
 
-        img_name = os.path.join(self.root_dir,
-                                img_name, str(patch_index))
+        img_folder = os.path.join(self.root_dir, img_name)
+        img_name = os.path.join(self.root_dir, img_name, os.listdir(img_folder)[patch_index])
         image = PIL.Image.open(img_name + '.jpg')
         if_msi = torch.tensor(np.array([if_msi]).astype(np.float32))
         if self.transform:
