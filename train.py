@@ -77,7 +77,7 @@ if __name__ == "__main__":
 # test_dataloader = DataLoader(test_set, batch_size=batch_num,
 #                              shuffle=True, num_workers=0)
 
-    trainer = pl.Trainer(max_epochs=1,
+    trainer = pl.Trainer(max_epochs=100,
                          gpus=1 if str(device) == "cuda:0" else 0)
     trainer.fit(model=resnet, datamodule=Ldm)
     trainer.test(datamodule=Ldm)
