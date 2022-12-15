@@ -18,7 +18,7 @@ def create_arg_parser():
 
     parser = argparse.ArgumentParser(description='Train arguments')
     parser.add_argument('inputDirectory', help='Path to the input directory.')
-    parser.add_argument('selectModel', help='1 for Patch based, 0 for full image')
+    parser.add_argument('selectModel', help='1 for Full image  based, 0 for patches image')
     return parser
 
 
@@ -36,8 +36,8 @@ if __name__ == "__main__":
         resnet = LitResnet(model_name='FullImageModel')
     else:
         csv_file = os.path.join(parsed_args.inputDirectory, Path('Few_patches/annotations.csv'))
-        root_dir = os.path.join(parsed_args.inputDirectory, Path('Few_patches/selected_patches_small'))
-        Ldm = LighteningDataHistology(csv_file, root_dir, int(parsed_args.selectModel), batch_size=4, if_pretrained=True)
+        root_dir = os.path.join(parsed_args.inputDirectory, Path('Few_patches/sel'))
+        Ldm = LighteningDataHistology(csv_file, root_dir, int(parsed_args.selectModel), batch_size=16, if_pretrained=True)
         resnet = LitResnet(model_name='PatchModel')
 #
 # batch_num = 1

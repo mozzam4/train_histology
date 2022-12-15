@@ -30,7 +30,7 @@ class LighteningDataHistology(pl.LightningDataModule):
 
     def setup(self, stage: Optional[str] = None):
 
-        if self.if_patch is False:
+        if self.if_patch is True:
             train_dataset = HistoFullImageDataset(csv_file=self.annotation_dir,
                                                   root_dir=self.root_dir,
                                                   transform=Compose([Resize(self.rescale_size),
