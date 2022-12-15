@@ -11,7 +11,7 @@ class HistologyDataset(Dataset):
 
     def __init__(self, csv_file, root_dir, transform=None):
         super().__init__()
-        self.annotation = pd.read_csv(csv_file, encoding='utf-8')
+        self.annotation = pd.read_csv(csv_file, encoding='utf-8', sep='\t')
         self.root_dir = root_dir
         self.transform = transform
 
