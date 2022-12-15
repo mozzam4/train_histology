@@ -56,12 +56,12 @@ class LighteningDataHistology(pl.LightningDataModule):
 
     def val_dataloader(self):
         return DataLoader(self.valid_set, batch_size=self.batch_size,
-                          shuffle=False, num_workers=0)
+                          shuffle=False, num_workers=10)
 
     def test_dataloader(self):
         return DataLoader(self.test_set, batch_size=self.batch_size,
-                          shuffle=False, num_workers=0)
+                          shuffle=False, num_workers=10)
 
     def train_dataloader(self):
         return DataLoader(self.train_set, batch_size=self.batch_size,
-                          shuffle=True, num_workers=0)
+                          shuffle=True, num_workers=10)
