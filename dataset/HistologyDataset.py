@@ -44,7 +44,7 @@ class HistologyDataset(Dataset):
 
         img_folder = os.path.join(self.root_dir, img_name)
         img_name = os.path.join(self.root_dir, img_name, os.listdir(img_folder)[patch_index])
-        image = PIL.Image.open(img_name + '.jpg')
+        image = PIL.Image.open(img_name)
         if_msi = torch.tensor(np.array([if_msi]).astype(np.float32))
         if self.transform:
             image = self.transform(image)
