@@ -38,14 +38,14 @@ if __name__ == "__main__":
     else:
         csv_file = os.path.join(parsed_args.inputDirectory, Path('Few_patches/annotations.csv'))
         root_dir = os.path.join(parsed_args.inputDirectory, Path('Few_patches/sel'))
-        Ldm = LighteningDataHistology(csv_file, root_dir, int(parsed_args.selectModel), batch_size=64, if_pretrained=True)
+        Ldm = LighteningDataHistology(csv_file, root_dir, int(parsed_args.selectModel), batch_size=16, if_pretrained=True)
         resnet = LitResnet(model_name='PatchModel')
 #
 # batch_num = 1
 # if training_patch is False:
 #     # train the model (hint: here are some helpful Trainer arguments for rapid idea iteration)
 #     train_dataset = HistoFullImageDataset(csv_file=r'/home/mozzam/Documents/Few_patches/annotations_full.csv',
-#                                           root_dir=r'/home/mozzam/Documents/Few_patches/selected_images_cropped',
+#                                           rootDas Dokument ist in Erfassung! _dir=r'/home/mozzam/Documents/Few_patches/selected_images_cropped',
 #                                           transform=Compose([Resize(1024),
 #                                                              CenterCrop(1024),
 #                                                              ToTensor(),
@@ -78,7 +78,7 @@ if __name__ == "__main__":
 # test_dataloader = DataLoader(test_set, batch_size=batch_num,
 #                              shuffle=True, num_workers=0)
 
-    trainer = pl.Trainer(max_epochs=int(parsed_args.maxEpochs), gpus=int(parsed_args.nGpu), num_nodes=1, strategy='dp',
+    trainer = pl.Trainer(max_epochs=int(parsed_args.maxEpochs), gpus=1,
                          auto_scale_batch_size="binsearch")
     #trainer = pl.Trainer(max_epochs=1, gpus=0)
     trainer.fit(model=resnet, datamodule=Ldm)
