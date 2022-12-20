@@ -58,6 +58,7 @@ class LitResnet(pl.LightningModule):
         x = batch['image']
         y = batch['if_msi']
         x = self(x)
+        x = torch.nn.Sigmoid()(x)
         loss = self.loss_module(x, y)
         #y_hat = torch.argmax(logits, dim=1)
         accuracy = torch.sum(y == x).item() / (len(y) * 1.0)
@@ -68,8 +69,8 @@ class LitResnet(pl.LightningModule):
         return output
 
     def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), lr=1e-3)
-        opt = SWA(optimizer, swa_start=5, swa_freq=5, swa_lr=0.005)
+        opt = optim.Adam(self.parameters(), lr=1e-3)
+        #opt = SWA(optimizer, swa_start=5, swa_freq=5, swa_lr=0.005)
         # scheduler = CosineAnnealingLR(optimizer, T_max=100)
         # swa_start = 5
         # swa_scheduler = SWALR(optimizer, swa_lr=0.05)

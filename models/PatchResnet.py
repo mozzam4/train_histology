@@ -21,5 +21,5 @@ class PatchResnet(torch.nn.Module):
         x = torch.nn.functional.elu_(x)
         x = self.fc3(x)
         #x = self.softmax(x)
-        x = self.sigmoid(x)
+        #x = self.sigmoid(x)
         return x
