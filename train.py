@@ -38,7 +38,7 @@ if __name__ == "__main__":
     else:
         csv_file = os.path.join(parsed_args.inputDirectory, Path('Few_patches/annotations.csv'))
         root_dir = os.path.join(parsed_args.inputDirectory, Path('Few_patches/sel'))
-        Ldm = LighteningDataHistology(csv_file, root_dir, int(parsed_args.selectModel), batch_size=256, if_pretrained=True)
+        Ldm = LighteningDataHistology(csv_file, root_dir, int(parsed_args.selectModel), batch_size=64, if_pretrained=True)
         resnet = LitResnet(model_name='PatchModel')
 #
 # batch_num = 1
@@ -78,7 +78,7 @@ if __name__ == "__main__":
 # test_dataloader = DataLoader(test_set, batch_size=batch_num,
 #                              shuffle=True, num_workers=0)
 
-    trainer = pl.Trainer(max_epochs=parsed_args.maxEpochs, gpus=parsed_args.nGpu, num_nodes=1, strategy='ddp')
+    trainer = pl.Trainer(max_epochs=parsed_args.maxEpochs, gpus=parsed_args.nGpu, num_nodes=1, strategy='dp')
     # trainer = pl.Trainer(max_epochs=1, gpus=0)
     trainer.fit(model=resnet, datamodule=Ldm)
     trainer.test(datamodule=Ldm)
