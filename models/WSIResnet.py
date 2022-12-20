@@ -17,9 +17,9 @@ class WSIResnet(torch.nn.Module):
     def forward(self, x):
         x = self.model(x)
         x = self.fc1(x)
-        x = torch.nn.functional.relu_(x)
+        x = torch.nn.functional.elu_(x)
         x = self.fc2(x)
-        x = torch.nn.functional.relu_(x)
+        x = torch.nn.functional.elu_(x)
         x = self.fc3(x)
-        x = self.softmax(x)
+        x = torch.sigmoid(x)
         return x

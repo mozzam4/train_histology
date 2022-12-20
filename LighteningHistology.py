@@ -58,7 +58,7 @@ class LitResnet(pl.LightningModule):
         x = batch['image']
         y = batch['if_msi']
         x = self(x)
-        x = torch.nn.Sigmoid()(x)
+        #x = torch.nn.Sigmoid()(x)
         loss = self.loss_module(x, y)
         #y_hat = torch.argmax(logits, dim=1)
         accuracy = torch.sum(y == x).item() / (len(y) * 1.0)

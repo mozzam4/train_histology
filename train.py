@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
     trainer = pl.Trainer(max_epochs=int(parsed_args.maxEpochs), gpus=int(parsed_args.nGpu), num_nodes=1, strategy='dp',
                          auto_scale_batch_size="binsearch")
-    # trainer = pl.Trainer(max_epochs=1, gpus=0)
+    #trainer = pl.Trainer(max_epochs=1, gpus=0)
     trainer.fit(model=resnet, datamodule=Ldm)
     trainer.test(datamodule=Ldm)
 
