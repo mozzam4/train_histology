@@ -44,9 +44,10 @@ class LighteningDataHistology(pl.LightningDataModule):
                                              root_dir=self.root_dir,
                                              transform=Compose([Resize(self.rescale_size),
                                                                 CenterCrop(self.centerCrop),
-                                                                ToTensor(),
-                                                                Normalize(mean=[0.485, 0.456, 0.406],
-                                                                          std=[0.229, 0.224, 0.225])]))
+                                                                ToTensor()
+                                                                #Normalize(mean=[0.485, 0.456, 0.406],
+                                                                          #std=[0.229, 0.224, 0.225])
+                                                                ]))
         train_set_size = int(len(train_dataset) * 0.7)
         test_set_size = int(max(len(train_dataset) * 0.1, 1))
         valid_set_size = len(train_dataset) - train_set_size - test_set_size

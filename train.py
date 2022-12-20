@@ -19,6 +19,7 @@ def create_arg_parser():
     parser = argparse.ArgumentParser(description='Train arguments')
     parser.add_argument('inputDirectory', help='Path to the input directory.')
     parser.add_argument('selectModel', help='1 for Full image  based, 0 for patches image')
+    parser.add_argument('maxEpochs', help='Max number of Epochs')
     return parser
 
 
@@ -76,7 +77,7 @@ if __name__ == "__main__":
 # test_dataloader = DataLoader(test_set, batch_size=batch_num,
 #                              shuffle=True, num_workers=0)
 
-    trainer = pl.Trainer(max_epochs=100, gpus=4, num_nodes=1, strategy='ddp')
+    trainer = pl.Trainer(max_epochs=parsed_args.maxEpochs, gpus=4, num_nodes=1, strategy='ddp')
     # trainer = pl.Trainer(max_epochs=1, gpus=0)
     trainer.fit(model=resnet, datamodule=Ldm)
     trainer.test(datamodule=Ldm)

@@ -11,13 +11,15 @@ class PatchResnet(torch.nn.Module):
         self.fc2 = torch.nn.Linear(256, 56)
         self.fc3 = torch.nn.Linear(56, 1)
         self.softmax = torch.nn.Softmax()
+        self.sigmoid = torch.nn.Sigmoid()
 
     def forward(self, x):
         x = self.model(x)
         x = self.fc1(x)
-        x = torch.nn.functional.relu_(x)
+        x = torch.nn.functional.elu_(x)
         x = self.fc2(x)
-        x = torch.nn.functional.relu_(x)
+        x = torch.nn.functional.elu_(x)
         x = self.fc3(x)
-        x = self.softmax(x)
+        #x = self.softmax(x)
+        x = self.sigmoid(x)
         return x

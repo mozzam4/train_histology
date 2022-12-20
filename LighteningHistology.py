@@ -4,8 +4,11 @@ import torch
 import torch.functional as F
 from torchvision.models import resnet50, ResNet50_Weights
 from models.PatchResnet import PatchResnet
+from torch.optim.swa_utils import AveragedModel, SWALR
+from torch.optim.lr_scheduler import CosineAnnealingLR
 from models.WSIResnet import WSIResnet
 from types import SimpleNamespace
+from torchcontrib.optim import SWA
 model_dict = {}
 model_dict['PatchModel'] = WSIResnet()
 model_dict['FullImageModel'] = WSIResnet(pretrained=False)
@@ -41,6 +44,7 @@ class LitResnet(pl.LightningModule):
         self.log("train_loss", loss)
         return loss
 
+
     def validation_step(self, batch, batch_idx):
         x = batch['image']
         y = batch['if_msi']
@@ -65,5 +69,10 @@ class LitResnet(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr=1e-3)
-        return optimizer
+        opt = SWA(optimizer, swa_start=5, swa_freq=5, swa_lr=0.005)
+        # scheduler = CosineAnnealingLR(optimizer, T_max=100)
+        # swa_start = 5
+        # swa_scheduler = SWALR(optimizer, swa_lr=0.05)
+
+        return opt
 
